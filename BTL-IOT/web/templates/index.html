@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đèn giao thông</title>
+    <style>
+        #video-container {
+            display: flex; /* Sử dụng flexbox để căn chỉnh các phần tử theo hàng ngang */
+            gap: 20px; /* Thêm khoảng cách giữa các luồng video */
+            width: 100%; /* Làm cho container chiếm toàn bộ chiều rộng */
+        }
+        #video-container img {
+            width: 100%; /* Đặt chiều rộng của mỗi luồng video để lấp đầy container */
+            height: auto; /* Duy trì tỷ lệ khung hình */
+            max-width: 49%; /* Đảm bảo mỗi video không vượt quá 45% chiều rộng của container */
+        }
+        #light-container {
+            display: grid; /* Sử dụng bố cục lưới */
+            grid-template-columns: 1fr 1fr; /* Tạo hai cột bằng nhau */
+            gap: 20px; /* Thêm khoảng cách giữa các cột */
+        }
+        #light-container div {
+            display: flex; /* Sử dụng flexbox để căn giữa nội dung */
+            justify-content: center; /* Căn giữa theo chiều ngang */
+            align-items: center; /* Căn giữa theo chiều dọc */
+        }
+    </style>
+</head>
+<body>
+    <h1>Điều khiển đèn giao thông</h1>
+    <a href="{{ url_for('login') }}"><button>Đăng nhập</button></a>
+    <div id="video-container">
+        <img src="{{ url_for('video_feed_1') }}" alt="Video Stream 1">
+        <img src="{{ url_for('video_feed_2') }}" alt="Video Stream 2">
+    </div>
+    <div id="light-container">
+        <div>
+            <p id="video1-light"></p>
+        </div>
+        <div>
+            <p id="video2-light"></p>
+        </div>
+    </div>
+
+    <script>
+        function updateTrafficTimes() {
+            fetch('/traffic_times')
+                .then(response => response.json())
+                .then(data => {
+                    const greenTime = data.green_time;
+                    const redTime = data.red_time;
+                    const isGreen = data.is_green;
+
+                    if (isGreen) {
+                        if (greenTime > 4){
+                            document.getElementById('video1-light').textContent = `Green Time: ${greenTime - 5} seconds`;
+                            document.getElementById('video2-light').textContent = `Red Time: ${greenTime} seconds`;
+                        } else {
+                            document.getElementById('video1-light').textContent = `Yellow Time: ${greenTime} seconds`;
+                            document.getElementById('video2-light').textContent = `Red Time: ${greenTime} seconds`;
+                        }
+                        
+                    } else {
+                        if (redTime > 4){
+                            document.getElementById('video1-light').textContent = `Red Time: ${redTime} seconds`;
+                            document.getElementById('video2-light').textContent = `Green Time: ${redTime - 5} seconds`;
+                        } else {
+                            document.getElementById('video1-light').textContent = `Red Time: ${redTime} seconds`;
+                            document.getElementById('video2-light').textContent = `Yellow Time: ${redTime} seconds`;
+                        }
+                    }
+                })
+        }
+
+        // Cập nhật thời gian đèn giao thông mỗi giây
+        setInterval(updateTrafficTimes, 1000);
+        // Lấy thời gian đèn giao thông ban đầu
+        updateTrafficTimes();
+    </script>
+</body>
+</html>
