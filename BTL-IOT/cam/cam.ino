@@ -2,14 +2,11 @@
 #include <WiFi.h>
 #include <esp32cam.h>
  
-const char* WIFI_SSID = "Quaan";
-const char* WIFI_PASS = "123456789";
+const char* WIFI_SSID = "Tran Nam";
+const char* WIFI_PASS = "12345678";
  
 WebServer server(80);
- 
- 
-static auto loRes = esp32cam::Resolution::find(320, 240);
-static auto midRes = esp32cam::Resolution::find(350, 530);
+
 static auto hiRes = esp32cam::Resolution::find(800, 600);
 void serveJpg()
 {
@@ -28,14 +25,6 @@ void serveJpg()
   frame->writeTo(client);
 }
  
-void handleJpgLo()
-{
-  if (!esp32cam::Camera.changeResolution(loRes)) {
-    Serial.println("SET-LO-RES FAIL");
-  }
-  serveJpg();
-}
- 
 void handleJpgHi()
 {
   if (!esp32cam::Camera.changeResolution(hiRes)) {
@@ -43,15 +32,6 @@ void handleJpgHi()
   }
   serveJpg();
 }
- 
-void handleJpgMid()
-{
-  if (!esp32cam::Camera.changeResolution(midRes)) {
-    Serial.println("SET-MID-RES FAIL");
-  }
-  serveJpg();
-}
- 
  
 void  setup(){
   Serial.begin(115200);
@@ -74,14 +54,10 @@ void  setup(){
     delay(500);
   }
   Serial.print("http://");
-  Serial.println(WiFi.localIP());
-  Serial.println("  /cam-lo.jpg");
+  Serial.print(WiFi.localIP());
   Serial.println("  /cam-hi.jpg");
-  Serial.println("  /cam-mid.jpg");
  
-  server.on("/cam-lo.jpg", handleJpgLo);
   server.on("/cam-hi.jpg", handleJpgHi);
-  server.on("/cam-mid.jpg", handleJpgMid);
  
   server.begin();
 }
