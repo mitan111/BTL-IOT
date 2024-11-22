@@ -10,5 +10,7 @@ C2: chuyển trang web gốc thành 'index2.html' (dòng 159 trong web-video.py)
 Đường dẫn để tải:
 
 model yolo: https://drive.google.com/file/d/1elLLk3TXmdDnI4l2LTnERxOyaHkEAOfE/view?usp=drive_link
+
 video 1: https://drive.google.com/file/d/1eST3qj_M6khcS4xW11RAF6Nk54ZGmDtL/view?usp=drive_link
+
 video 2: https://drive.google.com/file/d/1HYPtjTzRcYaMeBiwqjUPUOrhfU7Uel6a/view?usp=drive_link
