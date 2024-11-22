@@ -1,10 +1,16 @@
 # BTL-IOT
 Để có thể sử dụng giao diện có thể chỉnh sửa thời gian đèn thì:
+
 C1: Tạo database Mysql với tên 'iot' và import file iot.sql
+
    Tài khoản và mật khẩu để đăng nhập:
+   
    TK - MK:
+   
     a - 1
+    
     b - 1
+    
 C2: chuyển trang web gốc thành 'index2.html' (dòng 159 trong web-video.py)
 
 Đường dẫn để tải:
